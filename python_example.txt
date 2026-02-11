@@ -6,7 +6,6 @@ import sys
 # Ensure this is the RAW link
 UPDATE_URL = "https://raw.githubusercontent.com/Lexus101987/Update_finder/main/python_example.txt"
 FILENAME = sys.argv[0]
-
 VERSION = "1.2"
 
 def check_and_update():
@@ -41,8 +40,4 @@ def check_and_update():
 if __name__ == "__main__":
     check_and_update()
     print(f"App v{VERSION} is running perfectly.")
-<<<<<<< HEAD
-    print("oi_oi_oi")
-=======
-    print("yo wsp")
->>>>>>> c0a53ed3b805054eb28416abd4bb7426158957d8
+    print("It 2:10am")
