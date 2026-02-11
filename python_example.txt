@@ -6,11 +6,7 @@ import sys
 # Ensure this is the RAW link
 UPDATE_URL = "https://raw.githubusercontent.com/Lexus101987/Update_finder/main/python_example.txt"
 FILENAME = sys.argv[0]
-<<<<<<< HEAD
 VERSION = "1.2"
-=======
-VERSION = "1.1"
->>>>>>> c0a53ed3b805054eb28416abd4bb7426158957d8
 
 def check_and_update():
     print(f"Checking for updates... (Local: v{VERSION})")
