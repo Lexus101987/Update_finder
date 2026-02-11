@@ -40,4 +40,4 @@ def check_and_update():
 if __name__ == "__main__":
     check_and_update()
     print(f"App v{VERSION} is running perfectly.")
-    print("yo wsp"
+    print("yo wsp")
