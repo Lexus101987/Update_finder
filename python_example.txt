@@ -3,40 +3,41 @@ import shutil
 import os
 import sys
 
-# 1. Configuration
-CURRENT_VERSION = "1.0.0"
-VERSION_URL = "https://raw.githubusercontent.com/YourUser/YourRepo/main/version.txt"
-UPDATE_URL = "https://raw.githubusercontent.com/YourUser/YourRepo/main/my_script.py"
+# Ensure this is the RAW link
+UPDATE_URL = "https://raw.githubusercontent.com/Lexus101987/Update_finder/main/python_example.txt"
+FILENAME = sys.argv[0]
+VERSION = "1.0"
 
-def update_system():
+def check_and_update():
+    print(f"Checking for updates... (Local: v{VERSION})")
     try:
-        # 2. Check Version
-        response = requests.get(VERSION_URL)
-        online_version = response.text.strip()
-
-        if online_version > CURRENT_VERSION:
-            print(f"New version {online_version} found. Downloading...")
+        response = requests.get(UPDATE_URL)
+        
+        # CRITICAL: Only proceed if the website says "OK" (Status 200)
+        if response.status_code == 200:
+            content = response.text
             
-            # 3. Download the new file
-            new_file_data = requests.get(UPDATE_URL)
+            if f'VERSION = "{VERSION}"' in content:
+                print("No updates found.")
+                return
             
-            # 4. Save the update to a temp file first (Safety First!)
-            with open("my_script_new.py", "wb") as f:
-                f.write(new_file_data.content)
+            print("New version detected! Downloading...")
+            with open("temp_file.py", "w", encoding="utf-8") as f:
+                f.write(content)
             
-            # 5. Swap the files
-            # On next restart, the user runs the new version
-            shutil.move("my_script_new.py", "my_script.py")
+            shutil.move("temp_file.py", FILENAME)
+            print("Update applied. Restarting...")
+            os.execv(sys.executable, ['python'] + sys.argv)
             
-            print("Update complete! Please restart the program.")
-            sys.exit() 
+        elif response.status_code == 404:
+            print("Error: The update file was not found on GitHub (404). Check your URL!")
         else:
-            print("You are up to date.")
-
+            print(f"Error: GitHub returned status code {response.status_code}")
+            
     except Exception as e:
-        print(f"Update failed: {e}")
+        print(f"Update error: {e}")
 
 if __name__ == "__main__":
-    update_system()
-    # Your actual program starts here
-    print("Running App v" + CURRENT_VERSION)
+    check_and_update()
+    print(f"App v{VERSION} is running perfectly.")
+    print("yo wsp")
