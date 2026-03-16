@@ -9,7 +9,7 @@ import time
 VERSION_URL = "https://raw.githubusercontent.com/Lexus101987/Update_finder/main/version.txt"
 EXE_URL = "https://github.com/Lexus101987/Update_finder/raw/main/python_example.exe"
 
-VERSION = "1" # Current version of THIS file
+VERSION = "2" # Current version of THIS file
 FILENAME = sys.argv[0] # This will be 'python_example.exe' when compiled
 
 def check_and_update():
