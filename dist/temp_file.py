@@ -1,0 +1,43 @@
+import requests
+import shutil
+import os
+import sys
+
+# Ensure this is the RAW link
+UPDATE_URL = "https://raw.githubusercontent.com/Lexus101987/Update_finder/main/python_example.py"
+FILENAME = sys.argv[0]
+VERSION = "2"
+
+def check_and_update():
+    print(f"Checking for updates... (Local: v{VERSION})")
+    try:
+        response = requests.get(UPDATE_URL)
+        
+        # CRITICAL: Only proceed if the website says "OK" (Status 200)
+        if response.status_code == 200:
+            content = response.text
+            
+            if f'VERSION = "{VERSION}"' in content:
+                print("No updates found.")
+                return
+            
+            print("New version detected! Downloading...")
+            with open("temp_file.py", "w", encoding="utf-8") as f:
+                f.write(content)
+            
+            shutil.move("temp_file.py", FILENAME)
+            print("Update applied. Restarting...")
+            os.execv(sys.executable, ['python'] + sys.argv)
+            
+        elif response.status_code == 404:
+            print("Error: The update file was not found on GitHub (404). Check your URL!")
+        else:
+            print(f"Error: GitHub returned status code {response.status_code}")
+            
+    except Exception as e:
+        print(f"Update error: {e}")
+
+if __name__ == "__main__":
+    check_and_update()
+    print(f"App v{VERSION} is running perfectly.")
+    input("\nProcess finished. Press Enter to exit...")
