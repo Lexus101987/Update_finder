@@ -7,7 +7,7 @@ import subprocess
 VERSION_URL = "https://raw.githubusercontent.com/Lexus101987/Update_finder/main/version.txt"
 EXE_URL = "https://github.com/Lexus101987/Update_finder/raw/main/dist/python_example.exe"
 
-VERSION = "1" 
+VERSION = "2" 
 FILENAME = sys.argv[0] 
 
 def check_and_update():
