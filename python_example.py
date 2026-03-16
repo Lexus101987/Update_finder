@@ -6,7 +6,7 @@ import sys
 # Ensure this is the RAW link
 UPDATE_URL = "https://raw.githubusercontent.com/Lexus101987/Update_finder/main/python_example.py"
 FILENAME = sys.argv[0]
-VERSION = "1"
+VERSION = "2"
 
 def check_and_update():
     print(f"Checking for updates... (Local: v{VERSION})")
@@ -40,3 +40,4 @@ def check_and_update():
 if __name__ == "__main__":
     check_and_update()
     print(f"App v{VERSION} is running perfectly.")
+    input("\nProcess finished. Press Enter to exit...")
