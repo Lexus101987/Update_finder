@@ -36,7 +36,13 @@ def check_and_update():
                     with open("updater.bat", "w") as f:
                         f.write(f"""
 @echo off
-timeout /t 2 /nobreak > nul
+:wait_loop
+tasklist /FI "IMAGENAME eq {os.path.basename(FILENAME)}" 2>NUL | find /I /N "{os.path.basename(FILENAME)}">NUL
+if "%ERRORLEVEL%"=="0" (
+    timeout /t 1 /nobreak > nul
+    goto wait_loop
+)
+
 del /f /q "{FILENAME}"
 move /y "temp_update.exe" "{FILENAME}"
 start "" "{FILENAME}"
