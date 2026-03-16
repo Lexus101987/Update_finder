@@ -1,43 +1,40 @@
 import requests
-import shutil
 import os
 import sys
+import subprocess
 
-# Ensure this is the RAW link
-UPDATE_URL = "https://raw.githubusercontent.com/Lexus101987/Update_finder/main/python_example.py"
-FILENAME = sys.argv[0]
+# Points to the EXE on GitHub, not the .py
+EXE_URL = "https://github.com/Lexus101987/Update_finder/raw/main/python_example.exe"
 VERSION = "2"
+FILENAME = sys.argv[0]
 
 def check_and_update():
     print(f"Checking for updates... (Local: v{VERSION})")
     try:
-        response = requests.get(UPDATE_URL)
+        # In a real app, you'd check a version.txt here first
+        response = requests.get(EXE_URL, stream=True)
         
-        # CRITICAL: Only proceed if the website says "OK" (Status 200)
         if response.status_code == 200:
-            content = response.text
+            print("New version detected! Downloading binary update...")
             
-            if f'VERSION = "{VERSION}"' in content:
-                print("No updates found.")
-                return
+            # Use "wb" for Write-Binary
+            with open("temp_update.exe", "wb") as f:
+                f.write(response.content)
             
-            print("New version detected! Downloading...")
-            with open("temp_file.py", "w", encoding="utf-8") as f:
-                f.write(content)
+            # Create the Batch "Sidekick" to swap the files
+            with open("updater.bat", "w") as f:
+                f.write(f"""
+@echo off
+timeout /t 2 /nobreak > nul
+del "{FILENAME}"
+move /y "temp_update.exe" "{FILENAME}"
+start "" "{FILENAME}"
+del "%~f0"
+""")
             
-            shutil.move("temp_file.py", FILENAME)
-            print("Update applied. Restarting...")
-            os.execv(sys.executable, ['python'] + sys.argv)
-            
-        elif response.status_code == 404:
-            print("Error: The update file was not found on GitHub (404). Check your URL!")
-        else:
-            print(f"Error: GitHub returned status code {response.status_code}")
+            print("Update downloaded. Restarting...")
+            subprocess.Popen(["updater.bat"], shell=True)
+            sys.exit() # Close the current app so the .bat can delete it
             
     except Exception as e:
         print(f"Update error: {e}")
-
-if __name__ == "__main__":
-    check_and_update()
-    print(f"App v{VERSION} is running perfectly.")
-    input("\nProcess finished. Press Enter to exit...")
