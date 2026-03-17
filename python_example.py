@@ -63,5 +63,5 @@ if __name__ == "__main__":
         check_and_update()
     
     print(f"--- App v{VERSION} is now running ---")
-    print("suka biylat")
+    print("counter terrist win")
     input("\nPress Enter to exit...")
