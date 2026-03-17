@@ -7,7 +7,7 @@ import subprocess
 VERSION_URL = "https://raw.githubusercontent.com/Lexus101987/Update_finder/main/version.txt"
 EXE_URL = "https://github.com/Lexus101987/Update_finder/raw/main/dist/python_example.exe"
 
-VERSION = "2" 
+VERSION = "3" 
 FILENAME = sys.argv[0] 
 
 def check_and_update():
@@ -63,5 +63,5 @@ if __name__ == "__main__":
         check_and_update()
     
     print(f"--- App v{VERSION} is now running ---")
-    print("hello world from python!")
+    print("suka biylat")
     input("\nPress Enter to exit...")
