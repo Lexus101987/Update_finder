@@ -13,7 +13,7 @@ def my_background_task():
     while True:
         print("⏰ Script is active and working in the background...")
         # Put your actual automation or bot code here later!
-        time.sleep(3600)
+        time.sleep(60)
 
 if __name__ == "__main__":
     # This runs your background code on a separate thread so it doesn't block the web page
